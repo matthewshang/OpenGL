@@ -8,8 +8,7 @@
 #include "Mat4.h"
 #include "Vec3.h"
 #include "Quaternion.h"
-
-const double PI = 3.14159265358979323846;
+#include "MathUtils.h"
 
 GLfloat mixValue = 0.5f;
 
@@ -42,11 +41,68 @@ void run(GLFWwindow* window)
 	Shader shader("res/vertex_shader.vert", "res/fragment_shader.frag");
 
 	GLfloat vertices[] = {
-		 0.5f,  0.5f, 0.0f,  1.0f, 0.0f, 0.0f,  1.0f, 1.0f,
-		 0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,  1.0f, 0.0f,
-		-0.5f, -0.5f, 0.0f,  0.0f, 0.0f, 1.0f,  0.0f, 0.0f,
-		-0.5f,  0.5f, 0.0f,  1.0f, 1.0f, 0.0f,  0.0f, 1.0f
+		-0.5f, -0.5f, -0.5f, 0.0f, 0.0f,
+		 0.5f, -0.5f, -0.5f, 1.0f, 0.0f,
+		 0.5f,  0.5f, -0.5f, 1.0f, 1.0f,
+		 0.5f,  0.5f, -0.5f, 1.0f, 1.0f,
+		-0.5f,  0.5f, -0.5f, 0.0f, 1.0f,
+		-0.5f, -0.5f, -0.5f, 0.0f, 0.0f,
+
+		-0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
+		 0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
+		 0.5f,  0.5f, 0.5f, 1.0f, 1.0f,
+		 0.5f,  0.5f, 0.5f, 1.0f, 1.0f,
+		-0.5f,  0.5f, 0.5f, 0.0f, 1.0f,
+		-0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
+
+		-0.5f,  0.5f, 0.5f, 1.0f, 0.0f,
+		-0.5f,  0.5f, -0.5f, 1.0f, 1.0f,
+		-0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+		-0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+		-0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
+		-0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
+
+		 0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
+		 0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
+		 0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+		 0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+	 	 0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
+		 0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
+
+		-0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+		 0.5f, -0.5f, -0.5f, 1.0f, 1.0f,
+		 0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
+		 0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
+		-0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
+		-0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+
+		-0.5f, 0.5f, -0.5f, 0.0f, 1.0f,
+		 0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
+		 0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
+		 0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
+		-0.5f, 0.5f, 0.5f, 0.0f, 0.0f,
+		-0.5f, 0.5f, -0.5f, 0.0f, 1.0f
 	};
+
+	Vec3 cubes[] = {
+		Vec3(0.0f, 0.0f, 0.0f),
+		Vec3(2.0f, 5.0f, -15.0f),
+		Vec3(-1.5f, -2.2f, -2.5f),
+		Vec3(-3.8f, -2.0f, -12.3f),
+		Vec3(2.4f, -0.4f, -3.5f),
+		Vec3(-1.7f, 3.0f, -7.5f),
+		Vec3(1.3f, -2.0f, -2.5f),
+		Vec3(1.5f, 2.0f, -2.5f),
+		Vec3(1.5f, 0.2f, -1.5f),
+		Vec3(-1.3f, 1.0f, -1.5f)
+	};
+
+	//GLfloat vertices[] = {
+	//	 0.5f,  0.5f, 0.0f,  1.0f, 0.0f, 0.0f,  1.0f, 1.0f,
+	//	 0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,  1.0f, 0.0f,
+	//	-0.5f, -0.5f, 0.0f,  0.0f, 0.0f, 1.0f,  0.0f, 0.0f,
+	//	-0.5f,  0.5f, 0.0f,  1.0f, 1.0f, 0.0f,  0.0f, 1.0f
+	//};
 
 	//GLfloat vertices[] = {
 	//	-0.5f, -0.5f, 0.0f,
@@ -111,40 +167,45 @@ void run(GLFWwindow* window)
 		glBindBuffer(GL_ARRAY_BUFFER, VBO);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+		//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+		//glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid *) 0);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid *) 0);
 		glEnableVertexAttribArray(0);
 
-		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid *) (3 * sizeof(GLfloat)));
+		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid *) (3 * sizeof(GLfloat)));
 		glEnableVertexAttribArray(1);
-
-		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid *) (6 * sizeof(GLfloat)));
-		glEnableVertexAttribArray(2);
 
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 
 	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+	glEnable(GL_DEPTH_TEST);
 
 	GLint ourMixLocation = glGetUniformLocation(shader.getProgram(), "ourMix");
 	GLuint transformLocation = glGetUniformLocation(shader.getProgram(), "transform");
+	GLint modelLoc = glGetUniformLocation(shader.getProgram(), "model");
+	GLint viewLoc = glGetUniformLocation(shader.getProgram(), "view");
+	GLint projLoc = glGetUniformLocation(shader.getProgram(), "projection");
+
+	Mat4 view = Mat4::translate(Vec3(0.0f, 0.0f, -3.0f));
+	int windowWidth, windowHeight;
+	glfwGetWindowSize(window, &windowWidth, &windowHeight);
+	Mat4 projection = Mat4::perspective(45.0f, (float) windowWidth / (float) windowHeight, 0.1f, 100.0f);
 
 	while (!glfwWindowShouldClose(window))
 	{
 		glfwPollEvents();
 		
 
-		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		shader.use();
 
-		GLfloat time = glfwGetTime();
+		glUniformMatrix4fv(viewLoc, 1, GL_TRUE, view.getInternal());
+		glUniformMatrix4fv(projLoc, 1, GL_TRUE, projection.getInternal());
 
-		Mat4 mat = Mat4::translate(Vec3(0.5f, -0.5f, 0.0f)) * 
-			       Mat4::rotate(Quaternion::fromAxisAngle(Vec3(0.0f, 0.0f, 1.0f), time * 50.0f * PI / 180.0f));
-		glUniformMatrix4fv(transformLocation, 1, GL_TRUE, mat.getInternal());
+		GLfloat time = glfwGetTime();
 
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, texture);
@@ -157,12 +218,15 @@ void run(GLFWwindow* window)
 		glUniform1f(ourMixLocation, mixValue);
 
 		glBindVertexArray(VAO);
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		for (int i = 0; i < 10; i++)
+		{
+			Mat4 model = Mat4::translate(cubes[i]) *
+				         Mat4::rotate(Quaternion::fromAxisAngle(Vec3(0.5f, 1.0f, 0.0f), MathUtils::toRadians(((GLfloat) glfwGetTime() + 1000.0f) * (40.0f + (float) i))));
+			glUniformMatrix4fv(modelLoc, 1, GL_TRUE, model.getInternal());
+			glDrawArrays(GL_TRIANGLES, 0, 36);
 
-		float s = sin(time) / 2.0f + 0.5f;
-		mat = Mat4::translate(Vec3(-0.5f, 0.5f, 0.0f)) * Mat4::scale(Vec3(s, s, s));
-		glUniformMatrix4fv(transformLocation, 1, GL_TRUE, mat.getInternal());
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		}
+		//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
 		glBindVertexArray(0);
 
