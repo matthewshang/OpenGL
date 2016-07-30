@@ -5,6 +5,9 @@
 #include <iostream>
 
 #include "Shader.h"
+#include "Mat4.h"
+#include "Vec3.h"
+#include "Quaternion.h"
 
 const double PI = 3.14159265358979323846;
 
@@ -125,8 +128,8 @@ void run(GLFWwindow* window)
 
 	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 
-	GLint ourPositionLocation = glGetUniformLocation(shader.getProgram(), "ourPosition");
 	GLint ourMixLocation = glGetUniformLocation(shader.getProgram(), "ourMix");
+	GLuint transformLocation = glGetUniformLocation(shader.getProgram(), "transform");
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -138,8 +141,10 @@ void run(GLFWwindow* window)
 		shader.use();
 
 		GLfloat time = glfwGetTime();
-		GLfloat y = sin(time) / 8;
-		glUniform3f(ourPositionLocation, 0.0f, y, 0.0f);
+
+		Mat4 mat = Mat4::translate(Vec3(0.5f, -0.5f, 0.0f)) * 
+			       Mat4::rotate(Quaternion::fromAxisAngle(Vec3(0.0f, 0.0f, 1.0f), time * 50.0f * PI / 180.0f));
+		glUniformMatrix4fv(transformLocation, 1, GL_TRUE, mat.getInternal());
 
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, texture);
@@ -153,6 +158,12 @@ void run(GLFWwindow* window)
 
 		glBindVertexArray(VAO);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+
+		float s = sin(time) / 2.0f + 0.5f;
+		mat = Mat4::translate(Vec3(-0.5f, 0.5f, 0.0f)) * Mat4::scale(Vec3(s, s, s));
+		glUniformMatrix4fv(transformLocation, 1, GL_TRUE, mat.getInternal());
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+
 		glBindVertexArray(0);
 
 		glfwSwapBuffers(window);
