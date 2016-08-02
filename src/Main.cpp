@@ -9,30 +9,106 @@
 #include "Vec3.h"
 #include "Quaternion.h"
 #include "MathUtils.h"
+#include "Texture.h"
 
-GLfloat mixValue = 0.5f;
+Vec3 camPos(0.0f, 0.0f, 3.0f);
+Vec3 camFront(0.0f, 0.0f, -1.0f);
+Vec3 camUp(0.0f, 1.0f, 0.0f);
+GLfloat camSpeed = 5.0f;
+GLfloat sens = 0.1f;
+GLfloat lastX = 500.0f;
+GLfloat lastY = 375.0f;
+GLfloat yaw = -90.0f;
+GLfloat pitch = 0.0f;
+bool firstMouse = true;
+bool keys[1024];
+GLfloat fov = 75.0f;
+int test = 0;
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode)
 {
-	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+	if (action == GLFW_PRESS)
+	{
+		keys[key] = true;
+	}
+	else if (action == GLFW_RELEASE)
+	{
+		keys[key] = false;
+	}
+}
+
+void mouse_callback(GLFWwindow* window, double xpos, double ypos)
+{
+	if (firstMouse)
+	{
+		lastX = xpos;
+		lastY = ypos;
+		firstMouse = false;
+	}
+
+	GLfloat xOff = xpos - lastX;
+	GLfloat yOff = lastY - ypos;
+	lastX = xpos;
+	lastY = ypos;
+
+	xOff *= sens;
+	yOff *= sens;
+
+	yaw += xOff;
+	pitch += yOff;
+	if (pitch > 89.0f)
+	{
+		pitch = 89.0f;
+	}
+	else if (pitch < -89.0f)
+	{
+		pitch = -89.0f;
+	}
+
+	Vec3 front; 
+	front.x = cos(MathUtils::toRadians(pitch)) * cos(MathUtils::toRadians(yaw));
+	front.y = sin(MathUtils::toRadians(pitch));
+	front.z = cos(MathUtils::toRadians(pitch)) * sin(MathUtils::toRadians(yaw));
+	front.normalize();
+	camFront = front;
+}
+
+void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
+{
+	test += yoffset;
+	std::cout << test << std::endl;
+}
+
+void updateInputs(float delta, GLFWwindow* window)
+{
+	float speed = camSpeed * delta;
+	if (keys[GLFW_KEY_W])
+	{
+		camPos += camFront * speed;
+	}
+	if (keys[GLFW_KEY_S])
+	{
+		camPos -= camFront * speed;
+	}
+	if (keys[GLFW_KEY_A])
+	{
+		camPos -= camFront.cross(camUp).normalize() * speed;
+	}
+	if (keys[GLFW_KEY_D])
+	{
+		camPos += camFront.cross(camUp).normalize() * speed;
+	}
+	if (keys[GLFW_KEY_Q])
+	{
+		camPos += camUp * speed;
+	}
+	if (keys[GLFW_KEY_E])
+	{
+		camPos -= camUp * speed;
+	}
+	if (keys[GLFW_KEY_ESCAPE])
 	{
 		glfwSetWindowShouldClose(window, GL_TRUE);
-	}
-	if (key == GLFW_KEY_UP && action == GLFW_PRESS)
-	{
-		mixValue += 0.05f;
-		if (mixValue >= 1.0f)
-		{
-			mixValue = 1.0f;
-		}
-	}
-	if (key == GLFW_KEY_DOWN && action == GLFW_PRESS)
-	{
-		mixValue -= 0.05f;
-		if (mixValue <= 0.0f)
-		{
-			mixValue = 0.0f;
-		}
 	}
 }
 
@@ -121,38 +197,8 @@ void run(GLFWwindow* window)
 	//	0.5f, 1.0f
 	//};
 
-	int width, height;
-	unsigned char* image = SOIL_load_image("res/container.jpg", &width, &height, 0, SOIL_LOAD_RGB);
-	GLuint texture;
-	glGenTextures(1, &texture);
-	glBindTexture(GL_TEXTURE_2D, texture);
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
-	glGenerateMipmap(GL_TEXTURE_2D);
-	SOIL_free_image_data(image);
-	glBindTexture(GL_TEXTURE_2D, 0);
-
-	image = SOIL_load_image("res/awesomeface.png", &width, &height, 0, SOIL_LOAD_RGB);
-	GLuint texture2;
-	glGenTextures(1, &texture2);
-	glBindTexture(GL_TEXTURE_2D, texture2);
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
-	glGenerateMipmap(GL_TEXTURE_2D);
-	SOIL_free_image_data(image);
-	glBindTexture(GL_TEXTURE_2D, 0);
+	Texture container("res/container.jpg");
+	Texture awesomeface("res/awesomeface.png");
 
 	GLuint EBO;
 	glGenBuffers(1, &EBO);
@@ -182,46 +228,52 @@ void run(GLFWwindow* window)
 	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 	glEnable(GL_DEPTH_TEST);
 
-	GLint ourMixLocation = glGetUniformLocation(shader.getProgram(), "ourMix");
 	GLuint transformLocation = glGetUniformLocation(shader.getProgram(), "transform");
 	GLint modelLoc = glGetUniformLocation(shader.getProgram(), "model");
 	GLint viewLoc = glGetUniformLocation(shader.getProgram(), "view");
 	GLint projLoc = glGetUniformLocation(shader.getProgram(), "projection");
 
-	Mat4 view = Mat4::translate(Vec3(0.0f, 0.0f, -3.0f));
 	int windowWidth, windowHeight;
 	glfwGetWindowSize(window, &windowWidth, &windowHeight);
-	Mat4 projection = Mat4::perspective(45.0f, (float) windowWidth / (float) windowHeight, 0.1f, 100.0f);
+	Mat4 projection = Mat4::perspective(MathUtils::toRadians(fov), (float) windowWidth / (float) windowHeight, 0.1f, 100.0f);
+
+	GLfloat deltaTime = 0.0f;
+	GLfloat lastTime = 0.0f;
 
 	while (!glfwWindowShouldClose(window))
 	{
+		GLfloat currentTime = glfwGetTime();
+		deltaTime = currentTime - lastTime;
+		lastTime = currentTime;
+
 		glfwPollEvents();
-		
+		updateInputs(deltaTime, window);
+
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		shader.use();
 
+		//GLfloat r = 8.0f;
+		//GLfloat camX = sin(glfwGetTime()) * r;
+		//GLfloat camZ = cos(glfwGetTime()) * r;
+		//Mat4 view = Mat4::lookAt(camPos,
+		//						 Vec3(0.0f, 0.0f, 0.0f),
+		//						 Vec3(0.0f, 1.0f, 0.0f));
+		Mat4 view = Mat4::lookAt(camPos, camPos + camFront, camUp);
 		glUniformMatrix4fv(viewLoc, 1, GL_TRUE, view.getInternal());
 		glUniformMatrix4fv(projLoc, 1, GL_TRUE, projection.getInternal());
 
-		GLfloat time = glfwGetTime();
-
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, texture);
+		container.bind(0);
+		awesomeface.bind(1);
 		glUniform1i(glGetUniformLocation(shader.getProgram(), "ourTexture"), 0);
-		glActiveTexture(GL_TEXTURE0 + 1);
-		glBindTexture(GL_TEXTURE_2D, texture2);
 		glUniform1i(glGetUniformLocation(shader.getProgram(), "ourTexture2"), 1);
-
-		GLfloat mix = sin(2 * time) / 2 + 0.5;
-		glUniform1f(ourMixLocation, mixValue);
 
 		glBindVertexArray(VAO);
 		for (int i = 0; i < 10; i++)
 		{
 			Mat4 model = Mat4::translate(cubes[i]) *
-				         Mat4::rotate(Quaternion::fromAxisAngle(Vec3(0.5f, 1.0f, 0.0f), MathUtils::toRadians(((GLfloat) glfwGetTime() + 1000.0f) * (40.0f + (float) i))));
+				         Mat4::rotate(Quaternion::fromAxisAngle(Vec3(0.5f, 1.0f, 0.0f), MathUtils::toRadians((currentTime + 1000.0f) * (40.0f + (float) i))));
 			glUniformMatrix4fv(modelLoc, 1, GL_TRUE, model.getInternal());
 			glDrawArrays(GL_TRIANGLES, 0, 36);
 
@@ -232,9 +284,6 @@ void run(GLFWwindow* window)
 
 		glfwSwapBuffers(window);
 	}
-
-	glDeleteTextures(1, &texture);
-	glDeleteTextures(1, &texture2);
 
 	glDeleteVertexArrays(1, &VAO);
 	glDeleteBuffers(1, &VBO);
@@ -249,7 +298,7 @@ int main()
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
-	GLFWwindow* window = glfwCreateWindow(800, 600, "OpenGL", nullptr, nullptr);
+	GLFWwindow* window = glfwCreateWindow(1000, 750, "OpenGL", nullptr, nullptr);
 	if (window == nullptr)
 	{
 		std::cout << "Error: failed to create GLFWwindow" << std::endl;
@@ -258,6 +307,9 @@ int main()
 	}
 	glfwMakeContextCurrent(window);
 	glfwSetKeyCallback(window, key_callback);
+	glfwSetCursorPosCallback(window, mouse_callback);
+	glfwSetScrollCallback(window, scroll_callback);
+	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 	glewExperimental = GL_TRUE;
 	GLenum err = glewInit();

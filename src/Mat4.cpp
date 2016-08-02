@@ -75,7 +75,7 @@ Mat4 Mat4::rotate(Quaternion q)
 
 Mat4 Mat4::perspective(float fov, float aspect, float near, float far)
 {
-	float top = near * tan(MathUtils::toRadians(fov / 2.0f));
+	float top = near * tan(fov / 2.0f);
 	float right = top * aspect;
 	float d = far - near;
 	Mat4 p;
@@ -85,6 +85,32 @@ Mat4 Mat4::perspective(float fov, float aspect, float near, float far)
 	p.set(2, 3, (-2.0f * far * near) / d);
 	p.set(3, 2, -1.0f);
 	return p;
+}
+
+Mat4 Mat4::lookAt(Vec3 pos, Vec3 target, Vec3 up)
+{
+	up.normalize();
+	Vec3 z = pos - target;
+	z.normalize();
+	Vec3 x = up.cross(z);
+	x.normalize();
+	Vec3 y = z.cross(x);
+
+	Mat4 look;
+	look.set(0, 0, x.x);
+	look.set(0, 1, x.y);
+	look.set(0, 2, x.z);
+	look.set(1, 0, y.x);
+	look.set(1, 1, y.y);
+	look.set(1, 2, y.z);
+	look.set(2, 0, z.x);
+	look.set(2, 1, z.y);
+	look.set(2, 2, z.z);
+	look.set(3, 3, 1.0f);
+	look.set(0, 3, -(x * pos));
+	look.set(1, 3, -(y * pos));
+	look.set(2, 3, -(z * pos));
+	return look;
 }
 
 Vec3 Mat4::mulVec3(Vec3 v, float w)

@@ -40,6 +40,13 @@ Quaternion& Quaternion::normalize()
 	return *this;
 }
 
+Quaternion& Quaternion::operator=(const Quaternion& q)
+{
+	m_i = q.getImaginary();
+	m_r = q.getReal();
+	return *this;
+}
+
 Quaternion& Quaternion::operator*=(const Quaternion& v)
 {
 	Vec3 vi = v.getImaginary();
@@ -47,4 +54,11 @@ Quaternion& Quaternion::operator*=(const Quaternion& v)
 	m_i = m_i.cross(vi) + vi * m_r + m_i * vr;
 	m_r = m_r * vr - vi * m_i;
 	return *this;
+}
+
+Quaternion Quaternion::operator*(const Quaternion& q)
+{
+	Quaternion v = *this;
+	v *= q;
+	return v;
 }

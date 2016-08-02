@@ -21,6 +21,7 @@ public:
 	static Mat4 scale(Vec3 scale);
 	static Mat4 rotate(Quaternion q);
 	static Mat4 perspective(float fov, float aspect, float near, float far);
+	static Mat4 lookAt(Vec3 pos, Vec3 target, Vec3 up);
 
 	Vec3 mulVec3(Vec3 v, float w);
 

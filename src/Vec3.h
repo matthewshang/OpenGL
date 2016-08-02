@@ -18,7 +18,10 @@ public:
 	Vec3 cross(const Vec3& v);
 
 	Vec3& operator=(const Vec3& v);
+	Vec3& operator+=(const Vec3& v);
 	Vec3 operator+(const Vec3& v);
+	Vec3& operator-=(const Vec3& v);
+	Vec3 operator-(const Vec3& v);
 	Vec3 operator*(float s);
 	Vec3& operator*=(float s);
 	float operator*(const Vec3& v);
