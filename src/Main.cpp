@@ -1,118 +1,18 @@
 #include <GL/glew.h>
-#include <GLFW/glfw3.h>
-#include <SOIL/SOIL.h>
 
 #include <iostream>
 
 #include "Shader.h"
-#include "Mat4.h"
-#include "Vec3.h"
-#include "Quaternion.h"
-#include "MathUtils.h"
+#include "math/Mat4.h"
+#include "math/Vec3.h"
+#include "math/Quaternion.h"
+#include "math/MathUtils.h"
 #include "Texture.h"
+#include "InputState.h"
+#include "Window.h"
+#include "Camera.h"
 
-Vec3 camPos(0.0f, 0.0f, 3.0f);
-Vec3 camFront(0.0f, 0.0f, -1.0f);
-Vec3 camUp(0.0f, 1.0f, 0.0f);
-GLfloat camSpeed = 5.0f;
-GLfloat sens = 0.1f;
-GLfloat lastX = 500.0f;
-GLfloat lastY = 375.0f;
-GLfloat yaw = -90.0f;
-GLfloat pitch = 0.0f;
-bool firstMouse = true;
-bool keys[1024];
-GLfloat fov = 75.0f;
-int test = 0;
-
-void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode)
-{
-	if (action == GLFW_PRESS)
-	{
-		keys[key] = true;
-	}
-	else if (action == GLFW_RELEASE)
-	{
-		keys[key] = false;
-	}
-}
-
-void mouse_callback(GLFWwindow* window, double xpos, double ypos)
-{
-	if (firstMouse)
-	{
-		lastX = xpos;
-		lastY = ypos;
-		firstMouse = false;
-	}
-
-	GLfloat xOff = xpos - lastX;
-	GLfloat yOff = lastY - ypos;
-	lastX = xpos;
-	lastY = ypos;
-
-	xOff *= sens;
-	yOff *= sens;
-
-	yaw += xOff;
-	pitch += yOff;
-	if (pitch > 89.0f)
-	{
-		pitch = 89.0f;
-	}
-	else if (pitch < -89.0f)
-	{
-		pitch = -89.0f;
-	}
-
-	Vec3 front; 
-	front.x = cos(MathUtils::toRadians(pitch)) * cos(MathUtils::toRadians(yaw));
-	front.y = sin(MathUtils::toRadians(pitch));
-	front.z = cos(MathUtils::toRadians(pitch)) * sin(MathUtils::toRadians(yaw));
-	front.normalize();
-	camFront = front;
-}
-
-void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
-{
-	test += yoffset;
-	std::cout << test << std::endl;
-}
-
-void updateInputs(float delta, GLFWwindow* window)
-{
-	float speed = camSpeed * delta;
-	if (keys[GLFW_KEY_W])
-	{
-		camPos += camFront * speed;
-	}
-	if (keys[GLFW_KEY_S])
-	{
-		camPos -= camFront * speed;
-	}
-	if (keys[GLFW_KEY_A])
-	{
-		camPos -= camFront.cross(camUp).normalize() * speed;
-	}
-	if (keys[GLFW_KEY_D])
-	{
-		camPos += camFront.cross(camUp).normalize() * speed;
-	}
-	if (keys[GLFW_KEY_Q])
-	{
-		camPos += camUp * speed;
-	}
-	if (keys[GLFW_KEY_E])
-	{
-		camPos -= camUp * speed;
-	}
-	if (keys[GLFW_KEY_ESCAPE])
-	{
-		glfwSetWindowShouldClose(window, GL_TRUE);
-	}
-}
-
-void run(GLFWwindow* window)
+void run(Window& window)
 {
 	Shader shader("res/vertex_shader.vert", "res/fragment_shader.frag");
 
@@ -233,34 +133,35 @@ void run(GLFWwindow* window)
 	GLint viewLoc = glGetUniformLocation(shader.getProgram(), "view");
 	GLint projLoc = glGetUniformLocation(shader.getProgram(), "projection");
 
-	int windowWidth, windowHeight;
-	glfwGetWindowSize(window, &windowWidth, &windowHeight);
-	Mat4 projection = Mat4::perspective(MathUtils::toRadians(fov), (float) windowWidth / (float) windowHeight, 0.1f, 100.0f);
-
-	GLfloat deltaTime = 0.0f;
+	Mat4 projection = Mat4::perspective(MathUtils::toRadians(75.0f), (float) window.getWidth() / (float) window.getHeight(), 0.1f, 100.0f);
+	Camera camera(Vec3(0.0f, 0.0f, 3.0f), 10.0f, 8.0f);
 	GLfloat lastTime = 0.0f;
 
-	while (!glfwWindowShouldClose(window))
+	while (!window.shouldClose())
 	{
-		GLfloat currentTime = glfwGetTime();
-		deltaTime = currentTime - lastTime;
+		GLfloat currentTime = window.getTime();
+		GLfloat deltaTime = currentTime - lastTime;
 		lastTime = currentTime;
 
-		glfwPollEvents();
-		updateInputs(deltaTime, window);
+		window.pollEvents();
+		if (window.getInputState().keyPressed(InputState::KEY_ESCAPE))
+		{
+			window.close();
+		}
 
+		camera.update(deltaTime, window.getInputState());
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		shader.use();
 
 		//GLfloat r = 8.0f;
-		//GLfloat camX = sin(glfwGetTime()) * r;
-		//GLfloat camZ = cos(glfwGetTime()) * r;
-		//Mat4 view = Mat4::lookAt(camPos,
+		//GLfloat camX = sin(window.getTime()) * r;
+		//GLfloat camZ = cos(window.getTime()) * r;
+		//Mat4 view = Mat4::lookAt(Vec3(camX, 0.0f, camZ),
 		//						 Vec3(0.0f, 0.0f, 0.0f),
 		//						 Vec3(0.0f, 1.0f, 0.0f));
-		Mat4 view = Mat4::lookAt(camPos, camPos + camFront, camUp);
+		Mat4 view = camera.getViewMatrix();
 		glUniformMatrix4fv(viewLoc, 1, GL_TRUE, view.getInternal());
 		glUniformMatrix4fv(projLoc, 1, GL_TRUE, projection.getInternal());
 
@@ -282,7 +183,7 @@ void run(GLFWwindow* window)
 
 		glBindVertexArray(0);
 
-		glfwSwapBuffers(window);
+		window.swapBuffers();
 	}
 
 	glDeleteVertexArrays(1, &VAO);
@@ -291,41 +192,14 @@ void run(GLFWwindow* window)
 
 int main()
 {
-	glfwInit();
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
-
-	GLFWwindow* window = glfwCreateWindow(1000, 750, "OpenGL", nullptr, nullptr);
-	if (window == nullptr)
-	{
-		std::cout << "Error: failed to create GLFWwindow" << std::endl;
-		glfwTerminate();
-		return -1;
-	}
-	glfwMakeContextCurrent(window);
-	glfwSetKeyCallback(window, key_callback);
-	glfwSetCursorPosCallback(window, mouse_callback);
-	glfwSetScrollCallback(window, scroll_callback);
-	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-
-	glewExperimental = GL_TRUE;
-	GLenum err = glewInit();
-	if (GLEW_OK != err)
-	{
-		std::cout << "Error: failed to initialize GLEW" << std::endl;
-		return -1;
-	}
+	Window window(1000, 750, "OpenGL");
 
 	int width;
 	int height;
-	glfwGetFramebufferSize(window, &width, &height);
+	window.getFramebufferSize(width, height);
 	glViewport(0, 0, width, height);
 
 	run(window);
 
-	glfwTerminate();
 	return 0;
 }

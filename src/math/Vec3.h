@@ -19,12 +19,12 @@ public:
 
 	Vec3& operator=(const Vec3& v);
 	Vec3& operator+=(const Vec3& v);
-	Vec3 operator+(const Vec3& v);
+	Vec3 operator+(const Vec3& v) const;
 	Vec3& operator-=(const Vec3& v);
-	Vec3 operator-(const Vec3& v);
-	Vec3 operator*(float s);
+	Vec3 operator-(const Vec3& v) const;
+	Vec3 operator*(float s) const;
 	Vec3& operator*=(float s);
-	float operator*(const Vec3& v);
+	float operator*(const Vec3& v) const;
 };
 
 #endif
