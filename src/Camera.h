@@ -22,6 +22,7 @@ public:
 	Camera(Vec3 position, float lookSens, float moveSpeed);
 
 	Mat4 getViewMatrix();
+	Vec3 getPosition();
 	void update(float delta, InputState& input);
 
 private:

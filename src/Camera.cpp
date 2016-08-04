@@ -18,6 +18,11 @@ Mat4 Camera::getViewMatrix()
 	return Mat4::lookAt(m_position, m_position + m_front, m_up);
 }
 
+Vec3 Camera::getPosition()
+{
+	return m_position;
+}
+
 void Camera::update(float delta, InputState& input)
 {
 	float d = m_moveSpeed * delta;
