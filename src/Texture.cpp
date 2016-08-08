@@ -4,6 +4,10 @@ Texture::Texture(const char* path)
 {
 	int width, height;
 	unsigned char* image = SOIL_load_image(path, &width, &height, 0, SOIL_LOAD_RGB);
+	if (image == nullptr)
+	{
+		std::cout << "Error: could not load texture at " << path << std::endl;
+	}
 	glGenTextures(1, &m_texture);
 	glBindTexture(GL_TEXTURE_2D, m_texture);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);

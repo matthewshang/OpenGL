@@ -13,14 +13,14 @@ Camera::Camera(Vec3 position, float lookSens, float moveSpeed) :
 	updateVectors();
 }
 
-Mat4 Camera::getViewMatrix()
-{
-	return Mat4::lookAt(m_position, m_position + m_front, m_up);
-}
-
-Vec3 Camera::getPosition()
+const Vec3& Camera::getPosition()
 {
 	return m_position;
+}
+
+const Vec3& Camera::getFront()
+{
+	return m_front;
 }
 
 void Camera::update(float delta, InputState& input)
@@ -64,6 +64,11 @@ void Camera::update(float delta, InputState& input)
 		m_pitch = -89.0f;
 	}
 	updateVectors();
+}
+
+Mat4 Camera::getViewMatrix()
+{
+	return Mat4::lookAt(m_position, m_position + m_front, m_up);
 }
 
 void Camera::updateVectors()

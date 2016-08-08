@@ -1,13 +1,13 @@
 #include "Shader.h"
 
-void readShader(std::string path, std::string& ret);
+void loadShader(const std::string& path, std::string& ret);
 
-Shader::Shader(std::string vertexPath, std::string fragmentPath)
+Shader::Shader(const std::string& name)
 {
 	std::string vertexSource;
 	std::string fragmentSource;
-	readShader(vertexPath, vertexSource);
-	readShader(fragmentPath, fragmentSource);
+	loadShader(SHADER_PATH + name + VERTEX_EXTENSION, vertexSource);
+	loadShader(SHADER_PATH + name + FRAGMENT_EXTENSION, fragmentSource);
 	const GLchar* vertexSourceGL = vertexSource.c_str();
 	const GLchar* fragmentSourceGL = fragmentSource.c_str();
 
@@ -59,7 +59,7 @@ Shader::~Shader()
 	glDeleteProgram(m_program);
 }
 
-void Shader::use()
+void Shader::bind()
 {
 	glUseProgram(m_program);
 }
@@ -69,7 +69,40 @@ GLuint Shader::getProgram()
 	return m_program;
 }
 
-void readShader(std::string path, std::string& ret)
+void Shader::addUniform(const std::string& uniform)
+{
+	GLint location = glGetUniformLocation(m_program, uniform.c_str());
+	if (location == -1)
+	{
+		std::cout << "Error: invalid uniform name: " << uniform << std::endl;
+	}
+	else
+	{
+		m_uniforms.insert(std::pair<std::string, GLint>(uniform, location));
+	}
+}
+
+void Shader::setInt(const std::string& uniform, int value)
+{
+	glUniform1i(m_uniforms.at(uniform), value);
+}
+
+void Shader::setFloat(const std::string& uniform, float value)
+{
+	glUniform1f(m_uniforms.at(uniform), value);
+}
+
+void Shader::setVec3(const std::string& uniform, const Vec3& value)
+{
+	glUniform3f(m_uniforms.at(uniform), value.x, value.y, value.z);
+}
+
+void Shader::setMat4(const std::string& uniform, const Mat4& value)
+{
+	glUniformMatrix4fv(m_uniforms.at(uniform), 1, GL_TRUE, value.getInternal());
+}
+
+void loadShader(const std::string& path, std::string& ret)
 {
 	std::ifstream file;
 	file.exceptions(std::ifstream::badbit);
