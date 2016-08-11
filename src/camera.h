@@ -1,10 +1,8 @@
-#ifndef CAMERA_H
-#define CAMERA_H
+#pragma once
 
-#include "math/Vec3.h"
-#include "math/Mat4.h"
-#include "math/MathUtils.h"
-#include "InputState.h"
+#include "math/vec3.h"
+#include "math/mat4.h"
+#include "inputstate.h"
 
 class Camera
 {
@@ -40,5 +38,3 @@ private:
 
 	void updateVectors();
 };
-
-#endif

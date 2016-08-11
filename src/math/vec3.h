@@ -1,7 +1,4 @@
-#ifndef VEC3F_H
-#define VEC3F_H
-
-#include <cmath>
+#pragma once
 
 class Vec3
 {
@@ -26,5 +23,3 @@ public:
 	Vec3& operator*=(float s);
 	float operator*(const Vec3& v) const;
 };
-
-#endif

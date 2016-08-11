@@ -1,11 +1,7 @@
-#ifndef MAT4_H
-#define MAT4_H
+#pragma once
 
-#include <cmath>
-
-#include "Vec3.h"
-#include "Quaternion.h"
-#include "MathUtils.h"
+#include "vec3.h"
+#include "quaternion.h"
 
 class Mat4
 {
@@ -33,5 +29,3 @@ private:
 
 	float m[16];
 };
-
-#endif

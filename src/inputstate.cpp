@@ -1,4 +1,6 @@
-#include "InputState.h"
+#include "inputstate.h"
+
+#include <cstring>
 
 InputState::InputState(int windowWidth, int windowHeight) : m_firstMouse(true)
 {

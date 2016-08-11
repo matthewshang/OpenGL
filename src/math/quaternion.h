@@ -1,9 +1,6 @@
-#ifndef QUATERNION_H
-#define QUATERNION_H
+#pragma once
 
-#include <cmath>
-
-#include "Vec3.h"
+#include "vec3.h"
 
 class Quaternion
 {
@@ -27,5 +24,3 @@ private:
 	Vec3 m_i;
 	float m_r;
 };
-
-#endif;

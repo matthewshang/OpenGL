@@ -1,10 +1,6 @@
-#ifndef TEXTURE_H
-#define TEXTURE_H
+#pragma once
 
-#include <gl/glew.h>
-#include <SOIL/SOIL.h>
-
-#include <iostream>
+#include <GL/glew.h>
 
 class Texture
 {
@@ -18,5 +14,3 @@ private:
 	GLuint m_texture;
 
 };
-
-#endif

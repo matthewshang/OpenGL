@@ -1,4 +1,8 @@
-#include "Mat4.h"
+#include "mat4.h"
+
+#include <cmath>
+
+#include "mathutils.h"
 
 Mat4::Mat4()
 {

@@ -1,22 +1,9 @@
-#ifndef WINDOW_H
-#define WINDOW_H
+#pragma once
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-#include <exception>
-#include <iostream>
-
-#include "InputState.h"
-
-class WindowInitException : public std::exception
-{
-public:
-	virtual const char* what() const throw()
-	{
-		return "Error: failed to create GLFWwindow";
-	}
-};
+#include "inputstate.h"
 
 class Window
 {
@@ -43,5 +30,3 @@ private:
 
 	static void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mode);
 };
-
-#endif

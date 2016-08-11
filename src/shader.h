@@ -1,16 +1,12 @@
-#ifndef SHADER_H
-#define SHADER_H
+#pragma once
 
-#include <iostream>
-#include <fstream>
 #include <string>
-#include <sstream>
 #include <map>
 
 #include <GL/glew.h>
 
-#include "math/Vec3.h"
-#include "math/Mat4.h"
+#include "math/vec3.h"
+#include "math/mat4.h"
 
 class Shader
 {
@@ -28,12 +24,10 @@ public:
 	void setMat4(const std::string& uniform, const Mat4& value);
 
 private:
-	const std::string VERTEX_EXTENSION = ".vert";
-	const std::string FRAGMENT_EXTENSION = ".frag";
-	const std::string SHADER_PATH = "res/shaders/";
+	const static std::string VERTEX_EXTENSION;
+	const static std::string FRAGMENT_EXTENSION;
+	const static std::string SHADER_PATH;
 
 	GLuint m_program;
 	std::map<std::string, GLint> m_uniforms;
 };
-
-#endif

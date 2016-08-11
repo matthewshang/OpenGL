@@ -1,4 +1,8 @@
-#include "Texture.h"
+#include "texture.h"
+
+#include <SOIL/SOIL.h>
+
+#include <iostream>
 
 Texture::Texture(const char* path)
 {

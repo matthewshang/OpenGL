@@ -3,15 +3,15 @@
 #include <iostream>
 #include <string>
 
-#include "Shader.h"
-#include "math/Mat4.h"
-#include "math/Vec3.h"
-#include "math/Quaternion.h"
-#include "math/MathUtils.h"
-#include "Texture.h"
-#include "InputState.h"
-#include "Window.h"
-#include "Camera.h"
+#include "math/mat4.h"
+#include "math/vec3.h"
+#include "math/quaternion.h"
+#include "math/mathutils.h"
+#include "shader.h"
+#include "texture.h"
+#include "inputstate.h"
+#include "window.h"
+#include "camera.h"
 
 void run(Window& window)
 {
@@ -155,7 +155,6 @@ void run(Window& window)
 	Texture awesomeface("res/awesomeface.png");
 	//Shader shader("res/vertex_shader.vert", "res/fragment_shader.frag");
 	Shader shader("phong");
-	Shader lampShader("lamp_shader");
 
 	//GLuint EBO;
 	//glGenBuffers(1, &EBO);

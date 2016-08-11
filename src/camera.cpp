@@ -1,4 +1,8 @@
-#include "Camera.h"
+#include "camera.h"
+
+#include <cmath>
+
+#include "math/mathutils.h"
 
 Camera::Camera(Vec3 position, float lookSens, float moveSpeed) : 
 	m_position(position),

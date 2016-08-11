@@ -1,4 +1,6 @@
-#include "Window.h"
+#include "window.h"
+
+#include <iostream>
 
 Window::Window(int width, int height, char* title) : 
 	m_inputState(width, height), m_width(width), m_height(height)

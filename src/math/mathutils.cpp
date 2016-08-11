@@ -1,4 +1,4 @@
-#include "MathUtils.h"
+#include "mathutils.h"
 
 float MathUtils::toRadians(float degrees)
 {

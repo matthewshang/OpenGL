@@ -1,9 +1,6 @@
-#ifndef INPUTSTATE_H
-#define INPUTSTATE_H
+#pragma once
 
-#include <cstring>
-
-#include "math/Vec3.h"
+#include "math/vec3.h"
 
 class InputState
 {
@@ -150,5 +147,3 @@ private:
 	Vec3 m_mouseLast;
 	bool m_firstMouse;
 };
-
-#endif

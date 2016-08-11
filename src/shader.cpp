@@ -1,4 +1,12 @@
-#include "Shader.h"
+#include "shader.h"
+
+#include <iostream>
+#include <fstream>
+#include <sstream>
+
+const std::string Shader::VERTEX_EXTENSION = ".vert";
+const std::string Shader::FRAGMENT_EXTENSION = ".frag";
+const std::string Shader::SHADER_PATH = "res/shaders/";
 
 void loadShader(const std::string& path, std::string& ret);
 
