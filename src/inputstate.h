@@ -1,6 +1,6 @@
 #pragma once
 
-#include "math/vec3.h"
+#include "math/vec2.h"
 
 class InputState
 {
@@ -135,15 +135,15 @@ public:
 	InputState(int windowWidth, int windowHeight);
 
 	bool keyPressed(int key);
-	Vec3 getMousePosition();
-	Vec3 getMouseLast();
+	Vec2 getMousePosition();
+	Vec2 getMouseLast();
 
 	void updateKey(int key, bool pressed);
 	void updateMouse(float xpos, float ypos);
 
 private:
 	bool m_keys[1024];
-	Vec3 m_mousePosition;
-	Vec3 m_mouseLast;
+	Vec2 m_mousePosition;
+	Vec2 m_mouseLast;
 	bool m_firstMouse;
 };

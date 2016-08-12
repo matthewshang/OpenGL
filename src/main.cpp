@@ -1,7 +1,8 @@
-#include <GL/glew.h>
-
+#include <vector>
 #include <iostream>
 #include <string>
+
+#include <GL/glew.h>
 
 #include "math/mat4.h"
 #include "math/vec3.h"
@@ -12,98 +13,55 @@
 #include "inputstate.h"
 #include "window.h"
 #include "camera.h"
+#include "mesh.h"
 
 void run(Window& window)
 {
-	//GLfloat vertices[] = {
-	//	-0.5f, -0.5f, -0.5f, 0.0f, 0.0f,
-	//	 0.5f, -0.5f, -0.5f, 1.0f, 0.0f,
-	//	 0.5f,  0.5f, -0.5f, 1.0f, 1.0f,
-	//	 0.5f,  0.5f, -0.5f, 1.0f, 1.0f,
-	//	-0.5f,  0.5f, -0.5f, 0.0f, 1.0f,
-	//	-0.5f, -0.5f, -0.5f, 0.0f, 0.0f,
+	//GLfloat vertices[] = 
+	//{
+	//	 // Positions         // Normals           // Texture Coords
+	//	-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f, 0.0f,
+	//	 0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f, 0.0f,
+	//	 0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f, 1.0f,
+	//	 0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f, 1.0f,
+	//	-0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f, 1.0f,
+	//	-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f, 0.0f,
 
-	//	-0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
-	//	 0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
-	//	 0.5f,  0.5f, 0.5f, 1.0f, 1.0f,
-	//	 0.5f,  0.5f, 0.5f, 1.0f, 1.0f,
-	//	-0.5f,  0.5f, 0.5f, 0.0f, 1.0f,
-	//	-0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
+	//	-0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   0.0f, 0.0f,
+	//	 0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   1.0f, 0.0f,
+	//	 0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   1.0f, 1.0f,
+	//	 0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   1.0f, 1.0f,
+	//	-0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   0.0f, 1.0f,
+	//	-0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   0.0f, 0.0f,
 
-	//	-0.5f,  0.5f, 0.5f, 1.0f, 0.0f,
-	//	-0.5f,  0.5f, -0.5f, 1.0f, 1.0f,
-	//	-0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
-	//	-0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
-	//	-0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
-	//	-0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
+	//	-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
+	//	-0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  1.0f, 1.0f,
+	//	-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
+	//	-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
+	//	-0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  0.0f, 0.0f,
+	//	-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
 
-	//	 0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
-	//	 0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
-	//	 0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
-	//	 0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
-	// 	 0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
-	//	 0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
+	//	 0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
+	//	 0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  1.0f, 1.0f,
+	//	 0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
+	//	 0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
+	//	 0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  0.0f, 0.0f,
+	//	 0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
 
-	//	-0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
-	//	 0.5f, -0.5f, -0.5f, 1.0f, 1.0f,
-	//	 0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
-	//	 0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
-	//	-0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
-	//	-0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+	//	-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.0f, 1.0f,
+	//	 0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  1.0f, 1.0f,
+	//	 0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  1.0f, 0.0f,
+	//	 0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  1.0f, 0.0f,
+	//	-0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  0.0f, 0.0f,
+	//	-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.0f, 1.0f,
 
-	//	-0.5f, 0.5f, -0.5f, 0.0f, 1.0f,
-	//	 0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
-	//	 0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
-	//	 0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
-	//	-0.5f, 0.5f, 0.5f, 0.0f, 0.0f,
-	//	-0.5f, 0.5f, -0.5f, 0.0f, 1.0f
+	//	-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f, 1.0f,
+	//	 0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  1.0f, 1.0f,
+	//	 0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  1.0f, 0.0f,
+	//	 0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  1.0f, 0.0f,
+	//	-0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  0.0f, 0.0f,
+	//	-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f, 1.0f
 	//};
-
-	GLfloat vertices[] = 
-	{
-		 // Positions         // Normals           // Texture Coords
-		-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f, 0.0f,
-		 0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f, 0.0f,
-		 0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f, 1.0f,
-		 0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f, 1.0f,
-		-0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f, 1.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f, 0.0f,
-
-		-0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   0.0f, 0.0f,
-		 0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   1.0f, 0.0f,
-		 0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   1.0f, 1.0f,
-		 0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   1.0f, 1.0f,
-		-0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   0.0f, 1.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   0.0f, 0.0f,
-
-		-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
-		-0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  1.0f, 1.0f,
-		-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
-		-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
-		-0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  0.0f, 0.0f,
-		-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
-
-		 0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
-		 0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  1.0f, 1.0f,
-		 0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
-		 0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
-		 0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  0.0f, 0.0f,
-		 0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
-
-		-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.0f, 1.0f,
-		 0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  1.0f, 1.0f,
-		 0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  1.0f, 0.0f,
-		 0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  1.0f, 0.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  0.0f, 0.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.0f, 1.0f,
-
-		-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f, 1.0f,
-		 0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  1.0f, 1.0f,
-		 0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  1.0f, 0.0f,
-		 0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  1.0f, 0.0f,
-		-0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  0.0f, 0.0f,
-		-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f, 1.0f
-	};
 
 	Vec3 cubes[] = {
 		Vec3(0.0f, 0.0f, 0.0f),
@@ -126,60 +84,23 @@ void run(Window& window)
 		Vec3(0.0f, 0.0f, -3.0f)
 	};
 
-	//GLfloat vertices[] = {
-	//	 0.5f,  0.5f, 0.0f,  1.0f, 0.0f, 0.0f,  1.0f, 1.0f,
-	//	 0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,  1.0f, 0.0f,
-	//	-0.5f, -0.5f, 0.0f,  0.0f, 0.0f, 1.0f,  0.0f, 0.0f,
-	//	-0.5f,  0.5f, 0.0f,  1.0f, 1.0f, 0.0f,  0.0f, 1.0f
-	//};
-
-	//GLfloat vertices[] = {
-	//	-0.5f, -0.5f, 0.0f,
-	//	 0.5f, -0.5f, 0.0f,
-	//	 0.0f,  0.5f, 0.0f
-	//}
-
-	GLuint indices[] = {
-		0, 1, 3,
-		1, 2, 3
-	};
-
-	//GLfloat texCoords[] = {
-	//	0.0f, 0.0f,
-	//	1.0f, 0.0f,
-	//	0.5f, 1.0f
-	//};
-
 	Texture container2("res/container2.png");
 	Texture container2Specular("res/container2_specular.png");
-	Texture awesomeface("res/awesomeface.png");
-	//Shader shader("res/vertex_shader.vert", "res/fragment_shader.frag");
+	std::vector<Vertex> vertices;
+	std::vector<GLuint> indices;
+	vertices.push_back(Vertex(Vec3(0.5f, 0.5f, 0.0f), Vec3(0.0f, 0.0f, 1.0f), Vec2(1.0f, 1.0f)));
+	vertices.push_back(Vertex(Vec3(0.5f, -0.5f, 0.0f), Vec3(0.0f, 0.0f, 1.0f), Vec2(1.0f, 0.0f)));
+	vertices.push_back(Vertex(Vec3(-0.5f, -0.5f, 0.0f), Vec3(0.0f, 0.0f, 1.0f), Vec2(0.0f, 0.0f)));
+	vertices.push_back(Vertex(Vec3(-0.5f, 0.5f, 0.0f), Vec3(0.0f, 0.0f, 1.0f), Vec2(0.0f, 1.0f)));
+	indices.push_back(0);
+	indices.push_back(1);
+	indices.push_back(3);
+	indices.push_back(1);
+	indices.push_back(2);
+	indices.push_back(3);
+
+	Mesh mesh(vertices, indices);
 	Shader shader("phong");
-
-	//GLuint EBO;
-	//glGenBuffers(1, &EBO);
-
-	GLuint VBO;
-	glGenBuffers(1, &VBO);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-	GLuint VAO;
-	glGenVertexArrays(1, &VAO);
-
-	glBindVertexArray(VAO);
-		//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-		//glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid *) 0);
-		glEnableVertexAttribArray(0);
-
-		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid *) (3 * sizeof(GLfloat)));
-		glEnableVertexAttribArray(1);
-		
-		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid *) (6 * sizeof(GLfloat)));
-		glEnableVertexAttribArray(2);
-
-	glBindVertexArray(0);
 
 	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 	glEnable(GL_DEPTH_TEST);
@@ -278,23 +199,17 @@ void run(Window& window)
 
 		container2.bind(0);
 		container2Specular.bind(1);
-		glBindVertexArray(VAO);
 
 		for (int i = 0; i < 10; i++)
 		{
 			Mat4 objectModel = Mat4::translate(cubes[i]) *
 				Mat4::rotate(Quaternion::fromAxisAngle(Vec3(1.0f, 0.3f, 0.5f), MathUtils::toRadians(20.0f * i)));
 			shader.setMat4("model", objectModel);
-			glDrawArrays(GL_TRIANGLES, 0, 36);
+			mesh.render();
 		}
-
-		glBindVertexArray(0);
 	
 		window.swapBuffers();
 	}
-
-	glDeleteVertexArrays(1, &VAO);
-	glDeleteBuffers(1, &VBO);
 }
 
 int main()
