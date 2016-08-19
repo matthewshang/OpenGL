@@ -14,6 +14,7 @@
 #include "window.h"
 #include "camera.h"
 #include "mesh.h"
+#include "model.h"
 
 void run(Window& window)
 {
@@ -84,22 +85,23 @@ void run(Window& window)
 		Vec3(0.0f, 0.0f, -3.0f)
 	};
 
-	Texture container2("res/container2.png");
-	Texture container2Specular("res/container2_specular.png");
-	std::vector<Vertex> vertices;
-	std::vector<GLuint> indices;
-	vertices.push_back(Vertex(Vec3(0.5f, 0.5f, 0.0f), Vec3(0.0f, 0.0f, 1.0f), Vec2(1.0f, 1.0f)));
-	vertices.push_back(Vertex(Vec3(0.5f, -0.5f, 0.0f), Vec3(0.0f, 0.0f, 1.0f), Vec2(1.0f, 0.0f)));
-	vertices.push_back(Vertex(Vec3(-0.5f, -0.5f, 0.0f), Vec3(0.0f, 0.0f, 1.0f), Vec2(0.0f, 0.0f)));
-	vertices.push_back(Vertex(Vec3(-0.5f, 0.5f, 0.0f), Vec3(0.0f, 0.0f, 1.0f), Vec2(0.0f, 1.0f)));
-	indices.push_back(0);
-	indices.push_back(1);
-	indices.push_back(3);
-	indices.push_back(1);
-	indices.push_back(2);
-	indices.push_back(3);
+	//Texture container2("res/container2.png", Texture::Type::TEXTURE_DIFFUSE);
+	//Texture container2Specular("res/container2_specular.png", Texture::Type::TEXTURE_SPECULAR);
+	//std::vector<Vertex> vertices;
+	//std::vector<int> indices;
+	//vertices.push_back(Vertex(Vec3(0.5f, 0.5f, 0.0f), Vec3(0.0f, 0.0f, 1.0f), Vec2(1.0f, 1.0f)));
+	//vertices.push_back(Vertex(Vec3(0.5f, -0.5f, 0.0f), Vec3(0.0f, 0.0f, 1.0f), Vec2(1.0f, 0.0f)));
+	//vertices.push_back(Vertex(Vec3(-0.5f, -0.5f, 0.0f), Vec3(0.0f, 0.0f, 1.0f), Vec2(0.0f, 0.0f)));
+	//vertices.push_back(Vertex(Vec3(-0.5f, 0.5f, 0.0f), Vec3(0.0f, 0.0f, 1.0f), Vec2(0.0f, 1.0f)));
+	//indices.push_back(0);
+	//indices.push_back(1);
+	//indices.push_back(3);
+	//indices.push_back(1);
+	//indices.push_back(2);
+	//indices.push_back(3);
 
-	Mesh mesh(vertices, indices);
+	Model model("res/nanosuit/nanosuit.obj");
+	//Mesh mesh(vertices, indices);
 	Shader shader("phong");
 
 	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
@@ -155,9 +157,10 @@ void run(Window& window)
 	shader.addUniform("spotLight.base.ambient");
 	shader.addUniform("spotLight.base.color");
 
-	shader.setFloat("spotLight.innerCutoff", cos(MathUtils::toRadians(12.5f)));
-
-	shader.setFloat("spotLight.outerCutoff", cos(MathUtils::toRadians(17.5f)));
+	shader.setVec3("spotLight.position", Vec3(-3.5f, 8.0f, 3.0f));
+	shader.setVec3("spotLight.direction", Vec3(0.7f, -0.45f, -0.55f));
+	shader.setFloat("spotLight.innerCutoff", cos(MathUtils::toRadians(17.5f)));
+	shader.setFloat("spotLight.outerCutoff", cos(MathUtils::toRadians(22.5f)));
 	shader.setFloat("spotLight.atten.constant", 1.0f);
 	shader.setFloat("spotLight.atten.linear", 0.09f);
 	shader.setFloat("spotLight.atten.quadratic", 0.032f);
@@ -194,20 +197,25 @@ void run(Window& window)
 		Vec3 camPos = camera.getPosition();
 
 		shader.setVec3("viewPos", camPos);
-		shader.setVec3("spotLight.position", camPos);
-		shader.setVec3("spotLight.direction", camera.getFront());
 
-		container2.bind(0);
-		container2Specular.bind(1);
+		//shader.setVec3("spotLight.position", camPos);
+		//shader.setVec3("spotLight.direction", camera.getFront());
 
-		for (int i = 0; i < 10; i++)
-		{
-			Mat4 objectModel = Mat4::translate(cubes[i]) *
-				Mat4::rotate(Quaternion::fromAxisAngle(Vec3(1.0f, 0.3f, 0.5f), MathUtils::toRadians(20.0f * i)));
-			shader.setMat4("model", objectModel);
-			mesh.render();
-		}
-	
+		//container2.bind(0);
+		//container2Specular.bind(1);
+
+		//for (int i = 0; i < 10; i++)
+		//{
+		//	Mat4 objectModel = Mat4::translate(cubes[i]) *
+		//		Mat4::rotate(Quaternion::fromAxisAngle(Vec3(1.0f, 0.3f, 0.5f), MathUtils::toRadians(20.0f * i)));
+		//	shader.setMat4("model", objectModel);
+		//	mesh.render();
+		//}
+
+		Mat4 objectModel = Mat4::scale(Vec3(0.5f, 0.5f, 0.5f));
+		shader.setMat4("model", objectModel);
+		model.render();
+
 		window.swapBuffers();
 	}
 }

@@ -5,6 +5,12 @@
 class Texture
 {
 public:
+	enum
+	{
+		TEXTURE_DIFFUSE = 0,
+		TEXTURE_SPECULAR = 1
+	};
+
 	Texture(const char* path);
 	~Texture();
 
