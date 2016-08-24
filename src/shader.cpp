@@ -82,7 +82,7 @@ void Shader::addUniform(const std::string& uniform)
 	GLint location = glGetUniformLocation(m_program, uniform.c_str());
 	if (location == -1)
 	{
-		std::cout << "Error: invalid uniform name: " << uniform << std::endl;
+		std::cout << "Error::Shader: invalid uniform name: " << uniform << std::endl;
 	}
 	else
 	{

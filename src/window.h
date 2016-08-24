@@ -11,7 +11,6 @@ public:
 	Window(int width, int height, char* title);
 	~Window();
 
-	void getFramebufferSize(int& width, int& height);
 	int getWidth();
 	int getHeight();
 	InputState& getInputState();

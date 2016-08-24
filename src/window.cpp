@@ -44,11 +44,6 @@ Window::~Window()
 	glfwTerminate();
 }
 
-void Window::getFramebufferSize(int& width, int& height)
-{
-	glfwGetFramebufferSize(m_window, &width, &height);
-}
-
 int Window::getWidth()
 {
 	return m_width;

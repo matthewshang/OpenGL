@@ -18,52 +18,6 @@
 
 void run(Window& window)
 {
-	//GLfloat vertices[] = 
-	//{
-	//	 // Positions         // Normals           // Texture Coords
-	//	-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f, 0.0f,
-	//	 0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f, 0.0f,
-	//	 0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f, 1.0f,
-	//	 0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f, 1.0f,
-	//	-0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f, 1.0f,
-	//	-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f, 0.0f,
-
-	//	-0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   0.0f, 0.0f,
-	//	 0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   1.0f, 0.0f,
-	//	 0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   1.0f, 1.0f,
-	//	 0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   1.0f, 1.0f,
-	//	-0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   0.0f, 1.0f,
-	//	-0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   0.0f, 0.0f,
-
-	//	-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
-	//	-0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  1.0f, 1.0f,
-	//	-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
-	//	-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
-	//	-0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  0.0f, 0.0f,
-	//	-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
-
-	//	 0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
-	//	 0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  1.0f, 1.0f,
-	//	 0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
-	//	 0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
-	//	 0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  0.0f, 0.0f,
-	//	 0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
-
-	//	-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.0f, 1.0f,
-	//	 0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  1.0f, 1.0f,
-	//	 0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  1.0f, 0.0f,
-	//	 0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  1.0f, 0.0f,
-	//	-0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  0.0f, 0.0f,
-	//	-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.0f, 1.0f,
-
-	//	-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f, 1.0f,
-	//	 0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  1.0f, 1.0f,
-	//	 0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  1.0f, 0.0f,
-	//	 0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  1.0f, 0.0f,
-	//	-0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  0.0f, 0.0f,
-	//	-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f, 1.0f
-	//};
-
 	Vec3 cubes[] = {
 		Vec3(0.0f, 0.0f, 0.0f),
 		Vec3(2.0f, 5.0f, -15.0f),
@@ -85,33 +39,80 @@ void run(Window& window)
 		Vec3(0.0f, 0.0f, -3.0f)
 	};
 
-	//Texture container2("res/container2.png", Texture::Type::TEXTURE_DIFFUSE);
-	//Texture container2Specular("res/container2_specular.png", Texture::Type::TEXTURE_SPECULAR);
-	//std::vector<Vertex> vertices;
-	//std::vector<int> indices;
-	//vertices.push_back(Vertex(Vec3(0.5f, 0.5f, 0.0f), Vec3(0.0f, 0.0f, 1.0f), Vec2(1.0f, 1.0f)));
-	//vertices.push_back(Vertex(Vec3(0.5f, -0.5f, 0.0f), Vec3(0.0f, 0.0f, 1.0f), Vec2(1.0f, 0.0f)));
-	//vertices.push_back(Vertex(Vec3(-0.5f, -0.5f, 0.0f), Vec3(0.0f, 0.0f, 1.0f), Vec2(0.0f, 0.0f)));
-	//vertices.push_back(Vertex(Vec3(-0.5f, 0.5f, 0.0f), Vec3(0.0f, 0.0f, 1.0f), Vec2(0.0f, 1.0f)));
-	//indices.push_back(0);
-	//indices.push_back(1);
-	//indices.push_back(3);
-	//indices.push_back(1);
-	//indices.push_back(2);
-	//indices.push_back(3);
+	GLfloat quadVertices[] = {   
+        // Positions   // TexCoords
+        -1.0f,  1.0f,  0.0f, 1.0f,
+        -1.0f, -1.0f,  0.0f, 0.0f,
+         1.0f, -1.0f,  1.0f, 0.0f,
 
-	Model model("res/nanosuit/nanosuit.obj");
-	//Mesh mesh(vertices, indices);
+        -1.0f,  1.0f,  0.0f, 1.0f,
+         1.0f, -1.0f,  1.0f, 0.0f,
+         1.0f,  1.0f,  1.0f, 1.0f
+    };	
+
+	GLuint quadMesh;
+	GLuint quadVBO;
+	glGenVertexArrays(1, &quadMesh);
+	glGenBuffers(1, &quadVBO);
+	glBindVertexArray(quadMesh);
+	glBindBuffer(GL_ARRAY_BUFFER, quadVBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(quadVertices), &quadVertices, GL_STATIC_DRAW);
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), (GLvoid *) 0);
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), (GLvoid *) (2 * sizeof(GLfloat)));
+	glBindVertexArray(0);
+	//Model castle("res/meshes/Castle/castle01.obj");
+	//Model nanosuit("res/meshes/nanosuit/nanosuit.obj");
+
+	Model cube("res/meshes/cube/cube2.obj");
+	Model plane("res/meshes/plane/plane.obj");
+
 	Shader shader("phong");
+	Shader quad("quad");
+	//Shader shader("basic_shader");
 
-	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-	glEnable(GL_DEPTH_TEST);
+
+	GLuint fbo;
+	glGenFramebuffers(1, &fbo);
+	glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+
+	GLuint texColorBuffer;
+	glGenTextures(1, &texColorBuffer);
+	glBindTexture(GL_TEXTURE_2D, texColorBuffer);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, window.getWidth(), window.getHeight(), 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glBindTexture(GL_TEXTURE_2D, 0);
+
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texColorBuffer, 0);
+
+	GLuint rbo;
+	glGenRenderbuffers(1, &rbo);
+	glBindRenderbuffer(GL_RENDERBUFFER, rbo);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, window.getWidth(), window.getHeight());
+	glBindRenderbuffer(GL_RENDERBUFFER, 0);
+
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, rbo);
+	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+	{
+		std::cout << "Error::main: Renderbuffer not complete" << std::endl;
+	}
+
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+	quad.bind();
+	quad.addUniform("screenTexture");
+	quad.setInt("screenTexture", 0);
 
 	shader.bind();
 
 	shader.addUniform("model");
 	shader.addUniform("view");
 	shader.addUniform("projection");
+
+	//shader.addUniform("tex");
+	//shader.setInt("tex", 0);
 
 	shader.addUniform("viewPos");
 	shader.addUniform("material.diffuse");
@@ -128,49 +129,49 @@ void run(Window& window)
 
 	shader.setVec3("dirLight.direction", Vec3(-0.2f, -1.0f, -0.3f));
 	shader.setFloat("dirLight.base.ambient", 0.05f);
-	shader.setVec3("dirLight.base.color", Vec3(0.4f, 0.4f, 0.4f));
+	shader.setVec3("dirLight.base.color", Vec3(0.6f, 0.6f, 0.6f));
 
-	for (int i = 0; i < 4; i++)
-	{
-		shader.addUniform("pointLights[" + std::to_string(i) + "].base.color");
-		shader.addUniform("pointLights[" + std::to_string(i) + "].base.ambient");
-		shader.addUniform("pointLights[" + std::to_string(i) + "].position");
-		shader.addUniform("pointLights[" + std::to_string(i) + "].atten.constant");
-		shader.addUniform("pointLights[" + std::to_string(i) + "].atten.linear");
-		shader.addUniform("pointLights[" + std::to_string(i) + "].atten.quadratic");
+	//for (int i = 0; i < 4; i++)
+	//{
+	//	shader.addUniform("pointLights[" + std::to_string(i) + "].base.color");
+	//	shader.addUniform("pointLights[" + std::to_string(i) + "].base.ambient");
+	//	shader.addUniform("pointLights[" + std::to_string(i) + "].position");
+	//	shader.addUniform("pointLights[" + std::to_string(i) + "].atten.constant");
+	//	shader.addUniform("pointLights[" + std::to_string(i) + "].atten.linear");
+	//	shader.addUniform("pointLights[" + std::to_string(i) + "].atten.quadratic");
 
-		shader.setVec3("pointLights[" + std::to_string(i) + "].base.color", Vec3(0.8f, 0.8f, 0.8f));
-		shader.setFloat("pointLights[" + std::to_string(i) + "].base.ambient", 0.05f);
-		shader.setVec3("pointLights[" + std::to_string(i) + "].position", pointLights[i]);
-		shader.setFloat("pointLights[" + std::to_string(i) + "].atten.constant", 1.0f);
-		shader.setFloat("pointLights[" + std::to_string(i) + "].atten.linear", 0.09f);
-		shader.setFloat("pointLights[" + std::to_string(i) + "].atten.quadratic", 0.032f);
-	}
+	//	shader.setVec3("pointLights[" + std::to_string(i) + "].base.color", Vec3(0.8f, 0.8f, 0.8f));
+	//	shader.setFloat("pointLights[" + std::to_string(i) + "].base.ambient", 0.05f);
+	//	shader.setVec3("pointLights[" + std::to_string(i) + "].position", pointLights[i]);
+	//	shader.setFloat("pointLights[" + std::to_string(i) + "].atten.constant", 1.0f);
+	//	shader.setFloat("pointLights[" + std::to_string(i) + "].atten.linear", 0.09f);
+	//	shader.setFloat("pointLights[" + std::to_string(i) + "].atten.quadratic", 0.032f);
+	//}
 
-	shader.addUniform("spotLight.position");
-	shader.addUniform("spotLight.direction");
-	shader.addUniform("spotLight.innerCutoff");
-	shader.addUniform("spotLight.outerCutoff");
-	shader.addUniform("spotLight.atten.constant");
-	shader.addUniform("spotLight.atten.linear");
-	shader.addUniform("spotLight.atten.quadratic");
-	shader.addUniform("spotLight.base.ambient");
-	shader.addUniform("spotLight.base.color");
+	//shader.addUniform("spotLight.position");
+	//shader.addUniform("spotLight.direction");
+	//shader.addUniform("spotLight.innerCutoff");
+	//shader.addUniform("spotLight.outerCutoff");
+	//shader.addUniform("spotLight.atten.constant");
+	//shader.addUniform("spotLight.atten.linear");
+	//shader.addUniform("spotLight.atten.quadratic");
+	//shader.addUniform("spotLight.base.ambient");
+	//shader.addUniform("spotLight.base.color");
 
-	shader.setVec3("spotLight.position", Vec3(-3.5f, 8.0f, 3.0f));
-	shader.setVec3("spotLight.direction", Vec3(0.7f, -0.45f, -0.55f));
-	shader.setFloat("spotLight.innerCutoff", cos(MathUtils::toRadians(17.5f)));
-	shader.setFloat("spotLight.outerCutoff", cos(MathUtils::toRadians(22.5f)));
-	shader.setFloat("spotLight.atten.constant", 1.0f);
-	shader.setFloat("spotLight.atten.linear", 0.09f);
-	shader.setFloat("spotLight.atten.quadratic", 0.032f);
-	shader.setFloat("spotLight.base.ambient", 0.05f);
-	shader.setVec3("spotLight.base.color", Vec3(1.0f, 1.0f, 1.0f));
+	//shader.setVec3("spotLight.position", Vec3(-3.5f, 8.0f, 3.0f));
+	//shader.setVec3("spotLight.direction", Vec3(0.7f, -0.45f, -0.55f));
+	//shader.setFloat("spotLight.innerCutoff", cos(MathUtils::toRadians(17.5f)));
+	//shader.setFloat("spotLight.outerCutoff", cos(MathUtils::toRadians(22.5f)));
+	//shader.setFloat("spotLight.atten.constant", 1.0f);
+	//shader.setFloat("spotLight.atten.linear", 0.09f);
+	//shader.setFloat("spotLight.atten.quadratic", 0.032f);
+	//shader.setFloat("spotLight.base.ambient", 0.05f);
+	//shader.setVec3("spotLight.base.color", Vec3(1.0f, 1.0f, 1.0f));
 
 	Mat4 projection = Mat4::perspective(MathUtils::toRadians(75.0f), (float) window.getWidth() / (float) window.getHeight(), 0.1f, 100.0f);
 	shader.setMat4("projection", projection);
 	
-	Camera camera(Vec3(0.0f, 0.0f, 3.0f), 10.0f, 4.0f);
+	Camera camera(Vec3(0.0f, 0.0f, 3.0f), 10.0f, 10.0f);
 	GLfloat lastTime = 0.0f;
 
 	while (!window.shouldClose())
@@ -189,45 +190,62 @@ void run(Window& window)
 		camera.update(deltaTime, window.getInputState());
 		Mat4 view = camera.getViewMatrix();
 
+		// First pass
+		glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glEnable(GL_DEPTH_TEST);
+		glViewport(0, 0, window.getWidth(), window.getHeight());
 
 		shader.bind();
 
 		shader.setMat4("view", view);
-		Vec3 camPos = camera.getPosition();
+		shader.setVec3("viewPos", camera.getPosition());
 
-		shader.setVec3("viewPos", camPos);
+		glEnable(GL_CULL_FACE);
 
-		//shader.setVec3("spotLight.position", camPos);
-		//shader.setVec3("spotLight.direction", camera.getFront());
+		Mat4 model = Mat4::translate(Vec3(-1.0f, 0.0f, -1.0f)) *
+					 Mat4::scale(Vec3(1.0f, 1.0f, 1.0f));
+		shader.setMat4("model", model);
+		cube.render();
 
-		//container2.bind(0);
-		//container2Specular.bind(1);
+		model = Mat4::translate(Vec3(2.0f, 0.0f, 0.0f)) *
+				Mat4::scale(Vec3(1.0f, 1.0f, 1.0f));
+		shader.setMat4("model", model);
+		cube.render();
 
-		//for (int i = 0; i < 10; i++)
-		//{
-		//	Mat4 objectModel = Mat4::translate(cubes[i]) *
-		//		Mat4::rotate(Quaternion::fromAxisAngle(Vec3(1.0f, 0.3f, 0.5f), MathUtils::toRadians(20.0f * i)));
-		//	shader.setMat4("model", objectModel);
-		//	mesh.render();
-		//}
+		glDisable(GL_CULL_FACE);
 
-		Mat4 objectModel = Mat4::scale(Vec3(0.5f, 0.5f, 0.5f));
-		shader.setMat4("model", objectModel);
-		model.render();
+		model = Mat4::translate(Vec3(0.0f, -1.0f, 0.0f)) * Mat4::scale(Vec3(10.0f, 10.0f, 10.0f));
+		shader.setMat4("model", model);
+		plane.render();
+
+		// Second pass
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT);
+		glDisable(GL_DEPTH_TEST);
+
+		quad.bind();
+
+		glBindVertexArray(quadMesh);
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, texColorBuffer);
+		glDrawArrays(GL_TRIANGLES, 0, 6);
+
+		glBindVertexArray(0);
 
 		window.swapBuffers();
 	}
+
+	glDeleteFramebuffers(1, &fbo);
+	glDeleteTextures(1, &texColorBuffer);
+	glDeleteRenderbuffers(1, &rbo);
 }
 
 int main()
 {
 	Window window(1000, 750, "OpenGL");
-
-	int width;
-	int height;
-	window.getFramebufferSize(width, height);
-	glViewport(0, 0, width, height);
 
 	run(window);
 
